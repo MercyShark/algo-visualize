@@ -30,6 +30,7 @@
         display: flex;
         flex-wrap: wrap ;
         padding: 10px;
+        justify-content: flex-start;
     }
 
     .print-prime-div{
@@ -90,6 +91,9 @@ async function printPrimes() {
     if (primes[i]) {
         const element = document.createElement("span")
         element.textContent = i
+        const target_element_id = "number_box-" + i
+        const prime_element = document.getElementById(target_element_id)
+        prime_element.style.border = "2px solid " + color
         ans_div.appendChild(element)
         primes[i] = false;
         for (let j = i * i; j < n; j += i) {
