@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Sieve Algorithm</title>
+</head>
+<style>
+    .number_box { 
+        color: black;
+        font-size: larger;
+        background-color:rgb(223, 218, 218);
+        margin: 3px;
+        padding: 12px;
+        width: 20px;
+        text-align: center;
+    }
+
+    #ans{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .main{
+        display: flex;
+        gap: 20px;
+    }
+    #numbers-grid{
+        width: 600px;
+        display: flex;
+        flex-wrap: wrap ;
+        padding: 10px;
+    }
+
+    .print-prime-div{
+        width: 200px;
+    }
+
+    span{
+        margin : 2px;
+    }
+</style>
+
+
+
+<body>
+    <h1 style="text-align: center;"> Prime Sieve Algorithm Visualizer</h1>    
+    <div class="main">
+        <div id="numbers-grid">
+            
+        </div>
+        <div class="print-prime-div"> 
+            <p> Prime numbers : </p>
+            <div id="ans"> </div>
+        </div>
+    </div>
+</body>
+<script>
+
+function getRandomHexColor() {
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    return `#${randomColor.padStart(6, '0')}`;
+}
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+console.log(getRandomHexColor()); // Example output: #3e2f1b
+
+const n = 121;
+const numbers_grid_div = document.getElementById("numbers-grid");
+const ans_div = document.getElementById("ans");
+for (let i = 2; i < n; i++) {
+    const number_box = document.createElement("div")    
+    number_box.id = "number_box-" + i
+    number_box.classList.add("number_box")
+    number_box.innerText = i;
+
+    numbers_grid_div.appendChild(number_box)    
+}
+
+const primes = new Array(n).fill(true);
+primes[0] = primes[1] = false;
+
+async function printPrimes() {
+    for (let i = 2; i < n; i++) {
+    console.log("working")
+    const color = getRandomHexColor();
+    if (primes[i]) {
+        const element = document.createElement("span")
+        element.textContent = i
+        ans_div.appendChild(element)
+        primes[i] = false;
+        for (let j = i * i; j < n; j += i) {
+            await delay(50)
+            primes[j] = false; // Mark multiples of i as not prime
+            const target_element_id = "number_box-" + j
+            const target_element = document.getElementById(target_element_id);
+            target_element.style.backgroundColor = color;
+        }
+    }
+}
+}
+printPrimes();
+
+</script>
+</html>
